@@ -1,0 +1,8 @@
+format: jb-book
+root: intro
+chapters:
+  - file: probability
+  - file: bayes_theorem
+  - file: distributions
+  - file: estimate_proportions
+  - file: estimate_counts

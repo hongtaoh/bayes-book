@@ -1,0 +1,1093 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>贝叶斯公式的应用 &#8212; 贝叶斯统计</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'bayes_theorem';</script>
+    <link rel="canonical" href="https://ebm.hongtaoh.com/bayes_theorem.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="分布" href="distributions.html" />
+    <link rel="prev" title="概率相关定理" href="probability.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="贝叶斯统计 - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="贝叶斯统计 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="probability.html">概率相关定理</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">贝叶斯公式的应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distributions.html">分布</a></li>
+<li class="toctree-l1"><a class="reference internal" href="estimate_proportions.html">预估比例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="estimate_counts.html">估数</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/hongtaoh/ebm_book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/hongtaoh/ebm_book/edit/master/bayes_theorem.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/bayes_theorem.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>贝叶斯公式的应用</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">红球与白球</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">贝叶斯表</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">骰子问题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">三重门</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>贝叶斯公式的应用<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<section id="id2">
+<h2>红球与白球<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>我们先设想一个问题：</p>
+<p>假设有两只碗:</p>
+<blockquote>
+<div><p>碗 1 装着 30 颗红球和 10 颗白球<br />
+碗 2 装着 20 颗红球和 20 颗白球<br />
+请问，随机挑一只碗，然后随机抽一个球，假如抽到的是一颗红球，那这颗红球来自碗一的概率是多少？</p>
+</div></blockquote>
+<p>最简单也最直接的想法是，我只看最后结果，你抽到的是红球，那这颗红球来自碗一的概率是 <span class="math notranslate nohighlight">\(\frac{30}{30 + 20} = \frac{3}{5}\)</span>.</p>
+<p>当然，我希望大家可以用贝叶斯公式来计算：</p>
+<div class="math notranslate nohighlight">
+\[\begin{aligned} P(碗_1 | 红球) &amp;= \frac{P(碗_1)P(红球 | 碗_1)}{P(红球)} &amp; = \frac{\frac{1}{2} \cdot \frac{3}{4}}{\frac{5}{8}} &amp;= \frac{3}{5} \end{aligned}\]</div>
+<p>贝叶斯公式普遍的情形是这样：</p>
+<div class="math notranslate nohighlight">
+\[P(h|d) = \frac{P(h) P(d|h)}{P(d)}\]</div>
+<p>其中 <span class="math notranslate nohighlight">\(h\)</span> 表示 hypothesis，<span class="math notranslate nohighlight">\(d\)</span> 表示数据。我们把 <span class="math notranslate nohighlight">\(p(h)\)</span> 称为 prior，<span class="math notranslate nohighlight">\(p(d|h)\)</span> 称为 likelihood，<span class="math notranslate nohighlight">\(p(h|d)\)</span> 称为 posterior.</p>
+</section>
+<section id="id3">
+<h2>贝叶斯表<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;碗1&quot;</span><span class="p">,</span> <span class="s2">&quot;碗2&quot;</span><span class="p">])</span>
+
+<span class="n">table</span><span class="p">[</span><span class="s1">&#39;prior&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span>
+<span class="n">table</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prior</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>碗1</th>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <th>碗2</th>
+      <td>0.5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>在上面那个球与碗的情形中，hypothesis 是该红球来自碗一，data 是抽到一颗红球，prior 是 <span class="math notranslate nohighlight">\(p(碗_1)\)</span>，likelihood 是 <span class="math notranslate nohighlight">\(p(红球|碗_1)\)</span>，posterior 是 <span class="math notranslate nohighlight">\(p(碗_1 | 红球)\)</span>。</p>
+<p>那我们接着：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table</span><span class="p">[</span><span class="s1">&#39;likelihood&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span>
+<span class="n">table</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prior</th>
+      <th>likelihood</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>碗1</th>
+      <td>0.5</td>
+      <td>0.75</td>
+    </tr>
+    <tr>
+      <th>碗2</th>
+      <td>0.5</td>
+      <td>0.50</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>然后 <span class="math notranslate nohighlight">\(prior * likelihood\)</span>，也就是 <span class="math notranslate nohighlight">\(P(碗_1)P(红球 | 碗_1)\)</span>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table</span><span class="p">[</span><span class="s1">&#39;unnorm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="s1">&#39;prior&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">table</span><span class="p">[</span><span class="s1">&#39;likelihood&#39;</span><span class="p">]</span>
+<span class="n">table</span>
+<span class="c1">## unnorm 表示 unnormalized posteriors</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prior</th>
+      <th>likelihood</th>
+      <th>unnorm</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>碗1</th>
+      <td>0.5</td>
+      <td>0.75</td>
+      <td>0.375</td>
+    </tr>
+    <tr>
+      <th>碗2</th>
+      <td>0.5</td>
+      <td>0.50</td>
+      <td>0.250</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>因为我们知道 <span class="math notranslate nohighlight">\(p(d)\)</span> 也就是 <span class="math notranslate nohighlight">\(p(红球)\)</span> 为 <span class="math notranslate nohighlight">\(\frac{5}{8}\)</span>，所以：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table</span><span class="p">[</span><span class="s1">&#39;posterior&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="s1">&#39;unnorm&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="mi">5</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">table</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prior</th>
+      <th>likelihood</th>
+      <th>unnorm</th>
+      <th>posterior</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>碗1</th>
+      <td>0.5</td>
+      <td>0.75</td>
+      <td>0.375</td>
+      <td>0.6</td>
+    </tr>
+    <tr>
+      <th>碗2</th>
+      <td>0.5</td>
+      <td>0.50</td>
+      <td>0.250</td>
+      <td>0.4</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>这个结果和我们算出来的 <span class="math notranslate nohighlight">\(3/5\)</span> 是一致的。我们甚至还知道了 <span class="math notranslate nohighlight">\(p(碗_2|红球) = \frac{2}{5}\)</span>。</p>
+<p>其实，更简单的做法是，既然 <code class="docutils literal notranslate"><span class="pre">unnorm</span></code> 是 <code class="docutils literal notranslate"><span class="pre">posterior</span></code> 的非标准化版，那我们把 <code class="docutils literal notranslate"><span class="pre">unnorm</span></code> 标准化一下不就好了吗？怎么标准化？除以 <code class="docutils literal notranslate"><span class="pre">unnorm</span></code> 的和就可以了。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table</span><span class="p">[</span><span class="s1">&#39;posterior_again&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="s1">&#39;unnorm&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">table</span><span class="p">[</span><span class="s1">&#39;unnorm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">table</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prior</th>
+      <th>likelihood</th>
+      <th>unnorm</th>
+      <th>posterior</th>
+      <th>posterior_again</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>碗1</th>
+      <td>0.5</td>
+      <td>0.75</td>
+      <td>0.375</td>
+      <td>0.6</td>
+      <td>0.6</td>
+    </tr>
+    <tr>
+      <th>碗2</th>
+      <td>0.5</td>
+      <td>0.50</td>
+      <td>0.250</td>
+      <td>0.4</td>
+      <td>0.4</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="id4">
+<h2>骰子问题<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>假设我们有三个骰子：6 面的、8 面的、12 面的。A 君随机抽一个骰子，然后抛向空中，落下来的数字是 1。A 君让 B 君说出这个骰子是 6 面的概率。</p>
+<p>我们来分析一下，我们想知道的是 <span class="math notranslate nohighlight">\(p(dice = 6 | number = 1)\)</span>，所以：</p>
+<ul class="simple">
+<li><p>prior: <span class="math notranslate nohighlight">\(p(dice = 6)\)</span></p></li>
+<li><p>likelihood: <span class="math notranslate nohighlight">\(p(number = 1 | dice = 6)\)</span></p></li>
+<li><p>data: <span class="math notranslate nohighlight">\(p(number = 1)\)</span></p></li>
+<li><p>posterior: <span class="math notranslate nohighlight">\(p(dice = 6 | number = 1)\)</span></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">])</span>
+<span class="kn">from</span> <span class="nn">fractions</span> <span class="kn">import</span> <span class="n">Fraction</span>
+<span class="n">table2</span><span class="p">[</span><span class="s1">&#39;prior&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">table2</span><span class="p">[</span><span class="s1">&#39;likelihood&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="n">table2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prior</th>
+      <th>likelihood</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6</th>
+      <td>1/3</td>
+      <td>1/6</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1/3</td>
+      <td>1/8</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>1/3</td>
+      <td>1/12</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table2</span><span class="p">[</span><span class="s1">&#39;unnorm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table2</span><span class="p">[</span><span class="s1">&#39;prior&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">table2</span><span class="p">[</span><span class="s1">&#39;likelihood&#39;</span><span class="p">]</span>
+<span class="n">table2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prior</th>
+      <th>likelihood</th>
+      <th>unnorm</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6</th>
+      <td>1/3</td>
+      <td>1/6</td>
+      <td>1/18</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1/3</td>
+      <td>1/8</td>
+      <td>1/24</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>1/3</td>
+      <td>1/12</td>
+      <td>1/36</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>我们知道 “unnorm” 基本上已经是 posterior 了，唯一的区别是其还未标准化。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table2</span><span class="p">[</span><span class="s1">&#39;posterior&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table2</span><span class="p">[</span><span class="s1">&#39;unnorm&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">table2</span><span class="p">[</span><span class="s1">&#39;unnorm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">table2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prior</th>
+      <th>likelihood</th>
+      <th>unnorm</th>
+      <th>posterior</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6</th>
+      <td>1/3</td>
+      <td>1/6</td>
+      <td>1/18</td>
+      <td>4/9</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1/3</td>
+      <td>1/8</td>
+      <td>1/24</td>
+      <td>1/3</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>1/3</td>
+      <td>1/12</td>
+      <td>1/36</td>
+      <td>2/9</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="id5">
+<h2>三重门<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<p>假设你在参加一个电视节目。你面前是三扇门。其中一扇门后面是一辆法拉利，其余两扇门后面各是一只山羊。你随机挑一扇门，不管打开后是什么，都归你了。你当然希望后面是一辆法拉利。你随机挑了门 A，告诉了主持人，主持人打开了门 C，后面是一只山羊，主持人问你，你是坚持选择 A 还是换成 B。</p>
+<p>主持人通常这么行事：</p>
+<ol class="arabic simple">
+<li><p>主持人总会打开一扇门，给你机会重新选择</p></li>
+<li><p>他从来不会打开有车的门</p></li>
+<li><p>如果你选择了有车的那扇门，他会从另外两扇门中随机选一扇门打开</p></li>
+</ol>
+<p>现在问你，汽车在门 A 和门 B 后的概率分别是多少？</p>
+<p>你可能会觉得各是 1/2，但其实不是。我们用贝叶斯来计算一下。因为我们要选择的是门，所以 hypothesis 是门，故 prior 是 <span class="math notranslate nohighlight">\(p(门)\)</span>：车在 A, B, C 之后。</p>
+<p>Data 是主持人打开了 C 我们看到了一只山羊。</p>
+<p>Likelihood 是 <span class="math notranslate nohighlight">\(p(车 | 门)\)</span>。</p>
+<p>Posterior 是 <span class="math notranslate nohighlight">\(p(门 | 车)\)</span>。</p>
+<p>记住 prior 是在我们什么都不知道、没有任何数据的情况下所做的预测。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">])</span>
+<span class="n">table3</span><span class="p">[</span><span class="s1">&#39;prior&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">table3</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prior</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>1/3</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>1/3</td>
+    </tr>
+    <tr>
+      <th>C</th>
+      <td>1/3</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>我们来分析 Likelihood。Likelihood 指的是在某一 hypothesis 的情况下，这个 data 的概率。我们挨个分析。</p>
+<p>如果 hypothesis 是车在 A, 那么主持人打开 C 的概率是 <span class="math notranslate nohighlight">\(1/2\)</span>。</p>
+<p>如果 hypothesis 是车在 B，他必须给你选择的机会，但他不能打开 A，只能打开 C，所以这个 data 的概率是 1。</p>
+<p>如果 hypothesis 是车在 C，那么主持人打开 C 的概率是 0，因为他不能打开有车的那扇门。</p>
+<p>所以：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table3</span><span class="p">[</span><span class="s1">&#39;likelihood&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span>
+<span class="n">table3</span><span class="p">[</span><span class="s1">&#39;unnorm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table3</span><span class="p">[</span><span class="s1">&#39;prior&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">table3</span><span class="p">[</span><span class="s1">&#39;likelihood&#39;</span><span class="p">]</span>
+<span class="n">table3</span><span class="p">[</span><span class="s1">&#39;posterior&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">table3</span><span class="p">[</span><span class="s1">&#39;unnorm&#39;</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="n">table3</span><span class="p">[</span><span class="s1">&#39;unnorm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="n">table3</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>prior</th>
+      <th>likelihood</th>
+      <th>unnorm</th>
+      <th>posterior</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>1/3</td>
+      <td>1/2</td>
+      <td>1/6</td>
+      <td>1/3</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>1/3</td>
+      <td>1</td>
+      <td>1/3</td>
+      <td>2/3</td>
+    </tr>
+    <tr>
+      <th>C</th>
+      <td>1/3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>由此我们看到，车在 B 门之后的概率要更高。</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="probability.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">概率相关定理</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="distributions.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">分布</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">红球与白球</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">贝叶斯表</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">骰子问题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">三重门</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 郝鸿涛
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
